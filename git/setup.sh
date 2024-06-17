@@ -4,6 +4,8 @@ IFS=$'\n\t'
 
 SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) && cd "$SDIR"
 
+# link gitignore_global
+ln -sf "$SDIR/gitignore_global" ~/.gitignore_global
 
 git config --global user.name "Brenden Durham"
 git config --global user.email "paybdd@gmail.com"

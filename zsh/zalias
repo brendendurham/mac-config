@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+alias dot='cd ~/dotfiles'
+alias tmp='cd /tmp'
+alias dl='cd ~/Downloads'
+alias dt='cd ~/Desktop'
+
+alias bi='brew install'
+
+alias ic='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/'
+# cd hnnh

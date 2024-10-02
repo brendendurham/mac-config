@@ -1,0 +1,44 @@
+# ~/.config/sheldon/plugins.toml
+
+# Load the `zsh-defer` plugin to defer initialization of resource-heavy plugins
+[[plugins]]
+name = "zsh-defer"
+github = "romkatv/zsh-defer"
+
+# Powerlevel10k prompt setup
+[[plugins]]
+name = "powerlevel10k"
+github = "romkatv/powerlevel10k"
+
+# Configure pyenv with deferred loading
+[[plugins]]
+name = "pyenv"
+hooks = [
+    'source = "zsh-defer defer 1 -- eval \"$(pyenv init --path)\""',
+    'source = "zsh-defer defer 2 -- eval \"$(pyenv init -)\""',
+    'source = "zsh-defer defer 3 -- eval \"$(pyenv virtualenv-init -)\""'
+]
+
+# Add zoxide with custom command binding (h instead of z)
+[[plugins]]
+name = "zoxide"
+bin = ["zoxide"]
+hooks = [
+    'source = "eval \"$(zoxide init zsh)\""'
+]
+
+# Other deferred plugins
+[[plugins]]
+name = "zsh-syntax-highlighting"
+github = "zsh-users/zsh-syntax-highlighting"
+defer = true
+
+[[plugins]]
+name = "zsh-autosuggestions"
+github = "zsh-users/zsh-autosuggestions"
+defer = true
+
+[[plugins]]
+name = "fast-syntax-highlighting"
+github = "zdharma-continuum/fast-syntax-highlighting"
+defer = true

@@ -6,6 +6,9 @@ logerror() { printf "%b[error]%b %s\n" '\e[0;31m\033[1m' '\e[0m' "$@" >&2; }
 
 SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
+#setup sheldon
+mkdir -p ~/.config/sheldon
+ln -sf "$SDIR/sheldon/plugins.toml" ~/.config/sheldon/plugins.toml
 ln -sf "$SDIR/zshrc"         ~/.zshrc
 ln -sf "$SDIR/zprofile"         ~/.zprofile
 #ln -sf "$SDIR/zshfunctions"  ~/.functions
@@ -19,6 +22,7 @@ ln -sf "$SDIR/zprofile"         ~/.zprofile
 mkdir -p ~/.config/zsh
 # ln -sf "$SDIR/zsh_abbr" ~/.config/zsh/zsh_abbr
 ln -sf "$SDIR/zalias"    ~/.config/zsh/zalias
+
 
 ln -sf "$SDIR/abbreviations" ~/.config/zsh/zsh_abbr
 # zsh source order:

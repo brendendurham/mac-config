@@ -1,3 +1,17 @@
 # source zalias in .config/zsh/zalias
 source ~/.config/zsh/zalias
 
+export PATH="$HOME/.pyenv/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+# Load Sheldon
+eval "$(sheldon source)"
+
+# Configure Powerlevel10k
+if [[ ! -f ~/.p10k.zsh ]]; then
+    echo "Powerlevel10k configuration file not found. To generate it, run: p10k configure"
+else
+    source ~/.p10k.zsh
+fi

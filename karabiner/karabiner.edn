@@ -7,6 +7,22 @@
  :templates {:alfred "osascript -e 'tell application id \"com.runningwithcrayons.Alfred\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
              :open "open \"%s\""
+              :sh
+"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH %s"
+:yabai
+"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH yabai -m %s"
+:curl
+"/usr/local/bin/curl -s \"%s\""
+:hs
+"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH hs -A -n -q -t 0.1 -c '(\"%s\")'"
+:hsl
+"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH hs -A -n -q -t 0.1 -c 'hs.application.launchOrFocus(\"%s\")'"
+:show-in-firefox
+"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH hs -A -n -q -t 0.1 -c 'hs.application.launchOrFocus(\"Firefox Developer Edition\")'; curl -s '%s'"
+:togg
+"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH hs -A -n -q -t 0.1 -c '\nlocal appName = \"%s\";\nlocal x = hs.application.find(appName);\nif x and x:isFrontmost() then\n  x:hide();\nelse\n  hs.application.launchOrFocus(appName);\nend'"
+:jump
+"export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH yabai -m window --focus $(yabai -m query --windows | jq 'map(select(.app == \"%s\")) | first | .id') || hs -A -n -q -t 0.1 -c 'hs.application.launchOrFocus(\"%s\")'"
              }
  :simlayers {
              :2-mode {:key :2}
@@ -79,6 +95,20 @@
                  [:b :!Sb]
                  [:n :!Sn]
                  [:m :!Sm]]}
+        {:des "okey (apps)"
+         :rules [:o-mode
+                ; 1-9 command number
+                [:1 [:!C1]]
+                [:2 [:!C2]]
+                [:3 [:!C3]]
+                [:4 [:!C4]]
+                [:5 [:!C5]]
+                [:6 [:!C6]]
+                [:7 [:!C7]]
+                [:8 [:!C8]]
+                [:9 [:!C9]]
+                 ]
+         }
         {:des "jsim"        
          :rules [[[:j :s] [:alfred "search google" "net.deanishe.alfred-searchio"]]
                  [[:j :semicolon] [:alfred "search tabs" "net.deanishe.alfred.safari"]]
@@ -86,34 +116,13 @@
                  [[:j :l] :!CTOSspacebar]]} ; Alfred
         {:des "wkey (apps)"
          :rules [:w-mode
-                 [:e [:km "open: Calendar"]]
-                 [:r [:km "open: Notion"]]
-                 [:t [:km "open: Activity Monitor"]]
-                 ;[:i [:km "open: Instruments"]]
-                 [:i [:km "open: Obsidian"]]
-                 [:o [:km "open: Keyboard Maestro"]]
-                 [:p [:km "open: Path Finder"]]
-                 [:caps_lock [:km "open: Finder"]]
-                 [:a :!OSC1] ; Open Dash
-                 [:d [:km "open: DEVONthink"]]
-                 ;[:d [:km "open: TablePlus"]]
-                 [:f [:km "open: Path Finder"]]
-                 [:g [:km "open: Google Chrome"]]
-                 ;[:h [:km "open: Safari Technology Preview"]]
-                 [:h [:km "open: Emacs"]]
-                 [:j [:km "open: iTerm"]]
-                 [:k [:km "open: Safari"]]
-                 [:l [:km "open: VS Code"]]
-                 [:semicolon [:km "open: Xcode"]]
-                 [:quote [:km "open: Console"]]
-                 [:c [:km "open: Spotify"]]
-                 [:v [:km "open: Paw"]]
-                 [:b [:km "open: BetterTouchTool"]]
-                 [:n [:km "open: Sublime Text"]]
-                 [:m [:km "open: Sublime Merge"]]
-                 [:comma [:km "open: Proxyman"]]
-                 [:period [:km "open: Cypress"]]
-                 [:spacebar :!CT7]]} ; Start Google search with selection
+                [:j [:hsl "/Applications/Warp.app"]]
+                [:k [:hsl "/Applications/Cursor.app"]]
+                [:l [:hsl "/Applications/Firefox Developer Edition.app"]]
+                [:semicolon [:hsl "/Applications/ChatGPT.app"]]
+                
+                ]
+         ]}
        {:des "ekey (cmd)"
          :rules [:e-mode
                  [:q :!Cq]

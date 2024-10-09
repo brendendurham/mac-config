@@ -4,7 +4,19 @@ loginfo()  { printf "%b[info]%b %s\n"  '\e[0;32m\033[1m' '\e[0m' "$@" >&2; }
 logwarn()  { printf "%b[warn]%b %s\n"  '\e[0;33m\033[1m' '\e[0m' "$@" >&2; }
 logerror() { printf "%b[error]%b %s\n" '\e[0;31m\033[1m' '\e[0m' "$@" >&2; }
 
-SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+#!/usr/bin/env bash
+
+SDIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) && cd "$SDIR"
+confdir="$HOME/.config/zsh"
+mkdir -p "$confdir"
+
+
+for f in *.zsh; do
+    ln -sf {"$SDIR","$confdir"}/"$f"
+done
+
+rm -rf ~/.config/sheldon && ln -snf "$SDIR/sheldon" ~/.config/sheldon
+
 
 #setup sheldon
 mkdir -p ~/.config/sheldon
@@ -19,12 +31,11 @@ ln -sf "$SDIR/zprofile"         ~/.zprofile
 # ln -sf "$SDIR/zsh_fzf_extra" ~/.zsh_fzf_extra
 # ln -sf "$SDIR/zsh_secret"    ~/.zsh_secret
 
-mkdir -p ~/.config/zsh
 # ln -sf "$SDIR/zsh_abbr" ~/.config/zsh/zsh_abbr
 ln -sf "$SDIR/zalias"    ~/.config/zsh/zalias
 
 
-ln -sf "$SDIR/abbreviations" ~/.config/zsh/zsh_abbr
+# ln -sf "$SDIR/abbreviations" ~/.config/zsh/zsh_abbr
 # zsh source order:
 # https://medium.com/@rajsek/zsh-bash-startup-files-loading-order-bashrc-zshrc-etc-e30045652f2e
 # +----------------+-----------+-----------+------+

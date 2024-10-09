@@ -107,8 +107,7 @@
                 [:7 [:!C7]]
                 [:8 [:!C8]]
                 [:9 [:!C9]]
-                 ]
-         }
+                ]}
         {:des "jsim"        
          :rules [[[:j :s] [:alfred "search google" "net.deanishe.alfred-searchio"]]
                  [[:j :semicolon] [:alfred "search tabs" "net.deanishe.alfred.safari"]]
@@ -120,8 +119,6 @@
                 [:k [:hsl "/Applications/Cursor.app"]]
                 [:l [:hsl "/Applications/Firefox Developer Edition.app"]]
                 [:semicolon [:hsl "/Applications/ChatGPT.app"]]
-                
-                ]
          ]}
        {:des "ekey (cmd)"
          :rules [:e-mode

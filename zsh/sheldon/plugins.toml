@@ -1,44 +1,78 @@
-# ~/.config/sheldon/plugins.toml
+shell = "zsh"
 
-# Load the `zsh-defer` plugin to defer initialization of resource-heavy plugins
-[[plugins]]
-name = "zsh-defer"
+[templates]
+defer = "{% for file in files %} zsh-defer source \"{{ file }}\"\n {% endfor %}"
+defer-more = "{% for file in files %} zsh-defer -t 0.5 source \"{{ file }}\"\n {% endfor %}"
+
+[plugins.zsh-defer]
 github = "romkatv/zsh-defer"
 
-# Powerlevel10k prompt setup
-[[plugins]]
-name = "powerlevel10k"
+[plugins.powerlevel10k]
 github = "romkatv/powerlevel10k"
+[plugins.powerlevel10k.hooks]
+post = '''
+source ~/.config/zsh/p10k-pure.zsh
+'''
 
-# Configure pyenv with deferred loading
-[[plugins]]
-name = "pyenv"
-hooks = [
-    'source = "zsh-defer defer 1 -- eval \"$(pyenv init --path)\""',
-    'source = "zsh-defer defer 2 -- eval \"$(pyenv init -)\""',
-    'source = "zsh-defer defer 3 -- eval \"$(pyenv virtualenv-init -)\""'
-]
-
-# Add zoxide with custom command binding (h instead of z)
-[[plugins]]
-name = "zoxide"
-bin = ["zoxide"]
-hooks = [
-    'source = "eval \"$(zoxide init zsh)\""'
-]
-
-# Other deferred plugins
-[[plugins]]
-name = "zsh-syntax-highlighting"
-github = "zsh-users/zsh-syntax-highlighting"
-defer = true
-
-[[plugins]]
-name = "zsh-autosuggestions"
+[plugins.zsh-autosuggestions]
 github = "zsh-users/zsh-autosuggestions"
-defer = true
+use = ["{{ name }}.zsh"]
+apply = ["defer"]
 
-[[plugins]]
-name = "fast-syntax-highlighting"
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+apply = ["defer"]
+
+[plugins.fast-syntax-highlighting]
 github = "zdharma-continuum/fast-syntax-highlighting"
-defer = true
+apply = ["defer"]
+
+[plugins.zsh-autopair]
+github = "hlissner/zsh-autopair"
+apply = ["defer"]
+
+[plugins.forgit]
+github = "wfxr/forgit"
+apply = ["defer"]
+
+[plugins.forepos]
+github = "wfxr/forepos"
+apply = ["defer"]
+
+[plugins.epoch-cli]
+github = "wfxr/epoch-cli"
+apply = ["defer"]
+
+[plugins.git]
+remote = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh"
+apply = ["fpath"]
+
+[plugins.zsh-you-should-use]
+github = "MichaelAquilina/zsh-you-should-use"
+apply = ["defer"]
+
+[plugins.zoxide]
+inline = '''
+(( $+commands[zoxide] )) && zsh-defer zi::cache::cmd 'zoxide init zsh'
+'''
+
+[plugins.python]
+inline = '''
+(( $+commands[pyenv] )) && zsh-defer zi::cache::cmd 'pyenv init - zsh'
+(( $+commands[pip] ))   && zsh-defer zi::cache::cmd 'pip completion --zsh'
+'''
+
+[plugins.node]
+inline = '''
+(( $+commands[fnm] )) && zsh-defer zi::cache::cmd 'fnm env'
+'''
+
+[plugins.compinit]
+inline = '''
+autoload -Uz compinit
+# once a day
+for dump in ~/.zcompdump(N.mh+24); do
+    compinit; return
+done
+compinit -C
+'''

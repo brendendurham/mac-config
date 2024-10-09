@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # source zalias in .config/zsh/zalias
 source ~/.config/zsh/zalias
 
@@ -6,12 +13,46 @@ eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
+
+
+# fnm
+FNM_PATH="/Users/bhq/Library/Application Support/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/Users/bhq/Library/Application Support/fnm:$PATH"
+  eval "`fnm env`"
+fi
+
+function synchronized() {
+    local lock="$1" handler="$2" fallback="$3"
+    [ -e "$lock" ] && kill -0 "$(command cat "$lock" 2>/dev/null)" && return 1
+
+    trap "command rm -f $lock" INT TERM EXIT
+    mkdir -p "${lock%/*}" && echo $$ > "$lock"
+
+    eval "$handler"
+    command rm -f "$lock"
+}
+
+# cache directory for zinit
+ZINIT_CACHE="/tmp/zinit::cache:$UID"
+function zi::cache() {
+    local srcgen="$1" dest="$ZINIT_CACHE/${2:-$1}.zi::cache" lock="$ZINIT_CACHE/lock"
+    local handler="
+        [ -f '$dest' ] && return # double check
+        eval '$srcgen' > '$dest'
+        zcompile '$dest'
+    "
+    if [ ! -f "$dest" ]; then
+        if ! synchronized "$lock" "$handler"; then
+            source <($rc_gen_cmd) && return
+        fi
+    fi
+    source "$dest"
+}
+
+function zi::cache::cmd()   { zi::cache "$1"                      }
+function zi::cache::file()  { zi::cache "< $1" "$(basename "$1")" }
+function zi::cache::clean() { rm -rf "$ZINIT_CACHE" ~/.zcompdump* }
+
 # Load Sheldon
 eval "$(sheldon source)"
-
-# Configure Powerlevel10k
-if [[ ! -f ~/.p10k.zsh ]]; then
-    echo "Powerlevel10k configuration file not found. To generate it, run: p10k configure"
-else
-    source ~/.p10k.zsh
-fi

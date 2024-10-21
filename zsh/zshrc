@@ -56,3 +56,10 @@ function zi::cache::clean() { rm -rf "$ZINIT_CACHE" ~/.zcompdump* }
 
 # Load Sheldon
 eval "$(sheldon source)"
+# bun completions
+[ -s "/Users/bhq/.bun/_bun" ] && source "/Users/bhq/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+. "/Users/bhq/.deno/env"

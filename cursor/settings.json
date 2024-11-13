@@ -1,0 +1,7 @@
+{
+    "window.commandCenter": 1,
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredLightColorTheme": "GitHub Light",
+    "editor.accessibilitySupport": "on",
+    "editor.fontFamily": "SF Mono Powerline, Menlo, Monaco, 'Courier New', monospace"
+} 

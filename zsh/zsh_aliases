@@ -1,0 +1,3 @@
+# zoxide alias to h
+alias h='zoxide'
+

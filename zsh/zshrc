@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # source zalias in .config/zsh/zalias
-source ~/.config/zsh/zalias
+# source ~/code/mac-config/zsh/zsh_aliases
 
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
@@ -63,3 +63,11 @@ eval "$(sheldon source)"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 . "/Users/bhq/.deno/env"
+# Created by `pipx` on 2024-11-06 04:44:23
+export PATH="$PATH:/Users/bhq/.local/bin"
+
+eval "$(register-python-argcomplete pipx)"
+# source zsh_aliases
+source ~/.config/zsh/zsh_aliases
+
+export PATH="$PATH:/Applications/screenpipe.app/Contents/MacOS"

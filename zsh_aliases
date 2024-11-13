@@ -1,0 +1,29 @@
+# change zoxide command from z to h
+alias h='z'
+alias hi='zi'
+alias ha='za' 
+
+# Directory navigation shortcuts
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+
+# eza 
+if (( $+commands[eza] )); then
+    alias ls='eza --time-style long-iso --group-directories-first -m'
+    alias ll='ls --icons -lgbh'
+    alias la='ll -a'
+    alias ldot='ll -d .*'
+    alias lss='ll -s size'
+    alias lst='ll -s modified'
+    alias tree='ls --icons --tree'
+fi
+
+# git aliases
+alias g='git'
+alias gs='git status'
+alias ga='git add'
+alias gc='git commit'
+alias gco='git checkout'
+alias gp='git push'

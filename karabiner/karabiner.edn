@@ -4,70 +4,35 @@
          :held    50 ; TODO: not sure what it's for
          :delay   0 ; time after which the key press is delayed
          :sim     30}} ; keys need to be pressed within this threshold to be considered simultaneous
- :templates {:alfred "osascript -e 'tell application id \"com.runningwithcrayons.Alfred\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
+ :templates {
+                 :alfred "osascript -e 'tell application id \"com.runningwithcrayons.Alfred\" to run trigger \"%s\" in workflow \"%s\" with argument \"%s\"'"
              :km "osascript -e 'tell application \"Keyboard Maestro Engine\" to do script \"%s\"'"
              :open "open \"%s\""
-              :sh
-"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH %s"
-:yabai
-"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH yabai -m %s"
-:curl
-"/usr/local/bin/curl -s \"%s\""
-:hs
-"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH hs -A -n -q -t 0.1 -c '(\"%s\")'"
-:hsl
-"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH hs -A -n -q -t 0.1 -c 'hs.application.launchOrFocus(\"%s\")'"
-:show-in-firefox
-"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH hs -A -n -q -t 0.1 -c 'hs.application.launchOrFocus(\"Firefox Developer Edition\")'; curl -s '%s'"
-:togg
-"PATH=/opt/homebrew/bin:/usr/local/bin:$PATH hs -A -n -q -t 0.1 -c '\nlocal appName = \"%s\";\nlocal x = hs.application.find(appName);\nif x and x:isFrontmost() then\n  x:hide();\nelse\n  hs.application.launchOrFocus(appName);\nend'"
-:jump
-"export PATH=/opt/homebrew/bin:/usr/local/bin:$PATH yabai -m window --focus $(yabai -m query --windows | jq 'map(select(.app == \"%s\")) | first | .id') || hs -A -n -q -t 0.1 -c 'hs.application.launchOrFocus(\"%s\")'"
-             }
+            }
  :simlayers {
-             :2-mode {:key :2}
-             :3-mode {:key :3}
-             :4-mode {:key :4}
-             :tab-mode {:key :tab}
-             :q-mode {:key :q}
-             :w-mode {:key :w}
-             :e-mode {:key :e}
-             :r-mode {:key :r}
-             :t-mode {:key :t}
-             :i-mode {:key :i}
-             :o-mode {:key :o}
-             :caps-mode {:key :caps_lock}
-             :a-mode {:key :a}
-             :s-mode {:key :s}
-             :d-mode {:key :d}
-             :f-mode {:key :f}
-             :g-mode {:key :g}
-             :semicolon-mode {:key :semicolon}
-             :tilde-mode {:key :grave_accent_and_tilde}
-             :z-mode {:key :z}
-             :x-mode {:key :x}
-             :c-mode {:key :c}
-             :v-mode {:key :v}
-             :b-mode {:key :b}
-             :n-mode {:key :n}
-             :m-mode {:key :m}
-             :comma-mode {:key :comma}
-             :dot-mode {:key :period}
-             :spacebar-mode {:key :spacebar}
-             :go-mode {:key :period :condi ["in-go" 1]}
-             :js-mode {:key :period :condi ["in-js" 1]}
-             :swift-mode {:key :period :condi ["in-swift" 1]}
-             :rust-mode {:key :period :condi ["in-rust" 1]}
-             :py-mode {:key :period :condi ["in-python" 1]}
-             :elixir-mode {:key :period :condi ["in-elixir" 1]}
-             }
- :main [{:des "colonkey (shift)"
+                :q-mode {:key :q}
+        :s-mode {:key :s}
+        :w-mode {:key :w}
+        :e-mode {:key :e}
+        :g-mode {:key :g}
+        :f-mode {:key :f}
+        :semicolon-mode {:key :semicolon}
+        :d-mode {:key :d}
+        :o-mode {:key :o}
+        :v-mode {:key :v}
+
+ }
+ 
+ :main [
+        {:des "colonkey (shift)"
          :rules [:semicolon-mode
                  [:1 :!T1]
                  [:2 :!T2]
                  [:3 :!T3]
                  [:4 :!T4]
                  [:5 :!T5]
+                 [:6 :!T6]
+                 [:7 :!T7]
                  [:q :!Sq]
                  [:w :!Sw]
                  [:e :!Se]
@@ -87,40 +52,129 @@
                  [:j :!Sj]
                  [:k :!Sk]
                  [:l :!Sl]
-                 [:grave_accent_and_tilde [:!Sgrave_accent_and_tilde]] ; -> ~
                  [:z :!Sz]
                  [:x :!Sx]
                  [:c :!Sc]
                  [:v :!Sv]
                  [:b :!Sb]
                  [:n :!Sn]
+                 [:spacebar [:km "open: Reflect"]]
+                 ;[:spacebar [:km "open: Learn Anything"]]
+                 ;[:tab [:km "better (selection)"]] ; TODO: move it to cursor
+                 ;[:left_command [:km "enter: explain"]]
+                 ;[:escape [:km "Cursor = Open sublime merge to commit current project | All = Homerow"]] ; TODO: bind smth nicer
+                 ; TODO: have auto commit somewhere here with nice commits
+                 ; TODO: LA capture, maybe map to f key. f+j or smth (universal)
+                 ;[:grave_accent_and_tilde [:km "Cursor = commit all | All = clone open repo and open in Cursor"]] ; TODO: fix up
+                 ;[:grave_accent_and_tilde [:km "cursor: do"]]
+                 ;[:grave_accent_and_tilde [:!Sgrave_accent_and_tilde]] ; -> ~
+                 ;[:spacebar :!SCspacebar] ; Homerow search
+                 ;[:escape :!CTO4] ; Alfred file/text action
+                 ;[:tab [:km "lisa: autocomplete"]] ; TODO: make lisa work
+                 ;[:grave_accent_and_tilde :!Ospacebar] ; Switch language (Russian <-> English)
+                 ;[:tab [:km "Smart Autocomplete & new line"]]
+                 ;[:escape [:km "Smart Autocomplete"]]
+                 ;[:tab [:km ""]]
+                 ;[:escape [:km "get last error from ~/log/cmd.log + current file as context"]]
+                 ;[:escape [:km "get last error from ~/log/cmd.log + current file as context and paste into claude to fix"]]
+                 ;[:escape [:km "get last error from ~/log/cmd.log + current file as context and paste into chatgpt to fix"]]
                  [:m :!Sm]]}
-        {:des "okey (apps)"
-         :rules [:o-mode
-                ; 1-9 command number
-                [:1 [:!C1]]
-                [:2 [:!C2]]
-                [:3 [:!C3]]
-                [:4 [:!C4]]
-                [:5 [:!C5]]
-                [:6 [:!C6]]
-                [:7 [:!C7]]
-                [:8 [:!C8]]
-                [:9 [:!C9]]
-                ]}
-        {:des "jsim"        
-         :rules [[[:j :s] [:alfred "search google" "net.deanishe.alfred-searchio"]]
-                 [[:j :semicolon] [:alfred "search tabs" "net.deanishe.alfred.safari"]]
-                 [[:j :k] [:!CTOSspacebar ["in-alfred" 1]]]
-                 [[:j :l] :!CTOSspacebar]]} ; Alfred
+        {:des "skey (essential)"
+         :rules [:s-mode
+                 ; TODO: keybind for AI rewrite on selected text (raycast like prompt? maybe raycast has somthing as AI action)
+                 [:w [:!Oleft_arrow :!OSright_arrow]] ; Highlight word
+                 [:e :tab]
+                 [:r :!Stab]
+                 [:i [:km "Selected text -> Alfred Snippet"]]
+                 [:o :!Cx] ; Cut
+                 [:open_bracket [:km "Lowercase selected text"]]
+                 [:close_bracket [:km "Uppercase selected text"]]
+                 [:a :!Cc] ; Copy
+                 [:d :delete_or_backspace]
+                 [:f :return_or_enter]
+                 [:g :!Ctab]
+                 [:semicolon [:km "Selected text to Claude"]]
+                 [:period [:km "Select word & move to Claude"]]
+                 [:comma [:km "Select word & move to Claude (and run instantly)"]]
+                 [:slash [:km "Select line & move to Claude"]]
+                 [:##h :left_arrow]
+                 [:##j :down_arrow]
+                 [:##k :up_arrow]
+                 [:##l :right_arrow]
+                 [:t :!Sreturn_or_enter]
+                 [:quote [:!Cleft_arrow :!CSright_arrow]] ; Highlight current line
+                 [:c :!Cdelete_or_backspace]
+                 [:v :left_shift]
+                 [:##b :!Cleft_arrow]
+                 [:n :!Cv] ; Paste
+                 ;[:comma [:km "Show active todo"]]
+                 ;[:i [:km "Select word & jump to next occurance"]]
+                 ;[:i [:km "Select word & copy"]]
+                 ;[:u :!COp] ; Selection -> HasteBin link
+                 ;[:i :!CTperiod] ; Contexts search active windows ; TODO: maybe replace with alfred/raycast workflow to search active windows to jump to (similar to https://contexts.co)
+                 ;[:i [:km "Selected text -> Alfred Snippet"]]
+                 ;[:u :!COp] ; Selection -> HasteBin link
+                 ;[:i :!COp] ; Selection -> private GitHub gist (with url in clipboard) TODO:
+                 ;[:open_bracket :!Oleft_arrow]
+                 ;[:semicolon [:km "Autocomplete"]] ; TODO:
+                 ;[:semicolon [:km "New active todo"]] ; TODO: make LLM try to give hints on making this task, start processing it
+                 ;[:semicolon [:km "Selected text -> Alfred Snippet"]]
+                 ;[:##semicolon [:km "New active todo"]]
+                 ;[:semicolon :!CTO0] ; Search Alfred Snippets
+                 ;[:period :!COS0]]} ; TODO: bind to something nice
+                 [:##m :!Cright_arrow]]}
+        {:des "qkey (cmd + shift)"
+         :rules [:q-mode
+                 [:3 :!CS3]
+                 [:4 :!CS4]
+                 [:5 :!CS5]
+                 [:6 :!CS6]
+                 [:7 :!CS7]
+                 [:8 :!CS8]
+                 [:9 :!CS9]
+                 [:0 :!CS0]
+                 [:w :!CSw]
+                 [:e :!CSe]
+                 [:r :!CSr]
+                 [:t :!CSt]
+                 [:y :!CSy]
+                 [:u :!CSu]
+                 [:i :!CSi]
+                 [:o :!CSo]
+                 [:p :!CSp]
+                 [:open_bracket :!CSopen_bracket]
+                 [:close_bracket :!CSclose_bracket]
+                 [:a :!CSa]
+                 [:s :!CSs]
+                 [:d :!CSd]
+                 [:f :!CSf]
+                 [:g :!CSg]
+                 [:h :!CSh]
+                 [:j :!CSj]
+                 [:k :!CSk]
+                 [:l :!CSl]
+                 [:semicolon :!CSsemicolon]
+                 [:quote :!CSquote]
+                 [:z :!CSz]
+                 [:x :!CSx]
+                 [:c :!CSc]
+                 [:v :!CSv]
+                 [:b :!CSb]
+                 [:n :!CSn]
+                 [:m :!CSm]
+                 [:comma :!CScomma]
+                 [:period :!CSperiod]
+                 [:slash :!CSslash]
+                 ;[:spacebar [:km "Explain selected text with ChatGPT or explain .."]]]} ; TODO: make it use my own tool, similar to https://superwhisper.com record window, select text, then stream explain selected text in window
+                 ;[:spacebar [:km "Selected text into Google Lucky search"]]]}
+                 ;[:spacebar [:km "Explain selected text"]]]} ; TODO: seems not needed, as there is e+spacebar
+                 [:spacebar :!CSOe]]} ; Selection -> YouTube
         {:des "wkey (apps)"
          :rules [:w-mode
-                [:j [:hsl "/Applications/Warp.app"]]
-                [:k [:hsl "/Applications/Cursor.app"]]
-                [:l [:hsl "/Applications/Firefox Developer Edition.app"]]
-                [:semicolon [:hsl "/Applications/ChatGPT.app"]]
-         ]}
-       {:des "ekey (cmd)"
+                 [:e [:km "open: Linear"]]
+                 ;[:spacebar [:km "Explain with Ask"]]]}
+                 [:spacebar [:km "open: Fantastical"]]]}
+        {:des "ekey (cmd)"
          :rules [:e-mode
                  [:q :!Cq]
                  [:w :!Cw]
@@ -136,6 +190,7 @@
                  [:comma :!Ccomma]
                  [:period :!Cperiod]
                  [:slash :!Cslash]
+                 [:a :!Ca]
                  [:b :!Cb]
                  [:c :!Cc]
                  [:d :!Cd]
@@ -163,39 +218,84 @@
                  [:8 :!C8]
                  [:9 :!C9]
                  [:0 :!C0]
-                 [:spacebar :!CSO7]]} ; Selection -> Google Lucky
-       {:des "skey (essential)"
-         :rules [:s-mode
-                 [:w [:!Oleft_arrow :!OSright_arrow]] ; Highlight word
-                 [:e :tab]
-                 [:r :!Stab]
-                 [:t :!Sreturn_or_enter]
-                 [:u :!COp] ; Selection -> HasteBin link
-                 [:i :!CTperiod] ; Contexts search active windows
-                 [:o :!Cx] ; Cut
-                 ;[:open_bracket :!Oleft_arrow]
-                 [:open_bracket [:km "Lowercase selected text"]]
-                 [:close_bracket [:km "Uppercase selected text"]]
-                 [:a :!Cc] ; Copy
-                 [:d :delete_or_backspace]
-                 [:f :return_or_enter]
-                 [:g :!Ctab]
-                 [:##h :left_arrow]
-                 [:##j :down_arrow]
-                 [:##k :up_arrow]
-                 [:##l :right_arrow]
-                 [:semicolon :!CTO0] ; Search Alfred Snippets
-                 [:quote [:!Cleft_arrow :!CSright_arrow]] ; Highlight current line
-                 [:c :!Cdelete_or_backspace]
-                 [:v :left_shift]
-                 [:##b :!Cleft_arrow]
-                 [:n :!Cv] ; Paste
-                 [:##m :!Cright_arrow]
-                 [:period :!COS0]]} ; Selection -> Alfred Snippets TODO: 
-        {:des "vkey (select)"
-         :rules [:v-mode
-                 [:j [:km "Run selected text as command in iterm"]]]
-        }
+                ;[:spacebar :!CSO7]]} ; Selection -> Google Lucky TODO: no work..
+                ;[:spacebar [:km "Explain selected text (or open Claude Explain)"]]]}
+                ;[:spacebar [:km "Explain selected text (or open ChatGPT Explain)"]]]}
+                ;[:spacebar [:km "Explain selected text (or explain selected image)"]]]}
+                [:spacebar [:km "Selected text to Claude (run instantly)"]]]} ; TODO: move to something else (separate window, 0 context to explain things fast, overlay window ideally)
+        {:des "rkey (apps)"
+         :rules [:r-mode
+                 [:tab [:km "open: Transmission"]]
+                 [:w [:km "open: IINA"]]
+                 [:spacebar [:km "Screenshot into ChatGPT"]]]}
+        {:des "ikey (symbols)"
+         :rules [:i-mode
+                 [:1 :!S1]
+                 [:2 :!S2]
+                 [:3 :!Sequal_sign]
+                 [:4 :!S8]
+                 [:w :!S9]
+                 [:e :!S3]
+                 [:q :!Sopen_bracket]
+                 [:escape :!Sopen_bracket]
+                 [:left_command [:km "explain (selection, or paste)"]]
+                 [:r :!Squote]
+                 [:t :quote]
+                 [:o :open_bracket] ; [
+                 [:p :close_bracket] ; ]
+                 [:open_bracket :!Sclose_bracket] ; }
+                 [:a :slash]
+                 [:s :!Shyphen]
+                 [:d :backslash]
+                 [:f :hyphen]
+                 [:g :!S4]
+                 [:h [:km "paste: €"]]
+                 [:j :equal_sign]
+                 [:l [:hyphen :!Speriod :spacebar]] ; -> arrow (->)
+                 [:semicolon :semicolon]
+                 [:grave_accent_and_tilde :!Sgrave_accent_and_tilde] ; -> //
+                 [:z :!Sslash]
+                 [:x :!Sbackslash]
+                 [:c :!S7]
+                 [:v :!Scomma]
+                 ;[:3 :!S5]
+                 ;[:4 :!S8]
+                 ;[:left_command [:km "paste: ⌘"]]
+                 ;[:left_option [:km "paste: ⌥"]]
+                 ;[:left_control [:km "paste: ⌃"]]
+                 ;[:left_shift [:km "paste: ⇧"]]
+                 ;[:fn [:km "paste: ⇧"]]
+                 ;[:caps_lock [:km "Match symbols"]] ; TODO: check if works well
+                 [:b [:slash :slash :spacebar]]]} ; -> //
+        {:des "okey (alfred)"
+         :rules [:o-mode
+                 [:1 :!C1]
+                 [:2 :!C2]
+                 [:3 :!C3]
+                 [:4 :!C4]
+                 [:5 :!C5]
+                 [:6 :!C6]
+                 [:q [:km "open: Clerk"]]
+                 [:w [:km "open: Vercel"]]
+                 [:e [:km "open: Sourcegraph"]]
+                 [:d [:km "open: Cloudflare"]]
+                 [:j [:km "open: Perplexity"]]
+                 [:i [:km "open: Sentry"]]
+                 [:r [:km "open: Yandex Cloud"]]
+                 [:g [:km "open: AWS"]]
+                 [:escape [:km "open: Google Cloud"]]
+                 [:a [:km "open: Ronin"]]
+                 [:c [:alfred "search emoji" "com.github.jsumners.alfred-emoji"]]
+                 [:s [:alfred "search downloads" "recentdownloads.ddjfreedom"]]
+                 [:f [:km "open: ChatGPT"]]
+                 [:tab [:km "open: EdgeDB Cloud"]]
+                 [:k [:alfred "search menu bar" "com.tedwise.menubarsearch"]]
+                 [:x [:alfred "search workflows" "org.jeef.workflowdirectory"]]
+                 [:v [:alfred "search clones" "com.vitorgalvao.alfred.directories"]]
+                 [:b [:alfred "search forks" "com.vitorgalvao.alfred.directories"]]
+                 [:grave_accent_and_tilde [:km "open: Modal"]]
+                 [:left_command [:km "open: Claude 2"]]
+                 [:spacebar [:km "open: Claude"]]]}
         {:des "dkey (mouse)"
          :rules [:d-mode
                  [:i :!Ckeypad_hyphen] ; Zoom out
@@ -204,15 +304,80 @@
                  [:j {:mkey {:vwheel 60}}] ; Scroll down
                  [:k {:mkey {:vwheel -60}}] ; Scroll up
                  [:l [:km "Google clipboard"]]
-                 ;[:l [:km "Google selected word"]]
-                 [:semicolon [:km "Google Searchio selected word"]]
+                 ;[:f :!CSspacebar] ; Homerow ; TODO: check if useful
+                 [:semicolon :!Tdown_arrow] ; Application Windows (system settings > keyboard > mission control)
                  [:quote [:km "Select line and google"]]
                  [:z {:pkey :button2}] ; Right click
                  [:v {:pkey :button1}] ; Left click
                  [:b {:pkey :button3}] ; Middle click
                  [:n [:km "Open URL in clipboard in Safari"]]
                  [:m [:km "Google Lucky selected word"]]
-                 [:comma :!TO8] ; Show Launchpad
-                 [:period :!CTO3] ; Mission control
+                 [:comma :!TOS1] ; Show Launchpad (system settings > keyboard > launchpad & dock)
+                 [:period :!TOS2] ; Mission Control (system settings > keyboard > mission control)
+                 ;[:semicolon [:km "Google Searchio selected word"]]
+                 ;[:l [:km "Google selected word"]]
                  [:spacebar :!CT8]]} ; Selection -> Dictionary (wiki)
+        {:des "fkey (essential)"
+         :rules [:f-mode
+                 [:1 [:km "View Sip"]]
+                 [:q [:km "open: Photos"]]
+                 [:w [:km "open: Figma"]]
+                 [:e :!CO8] ; Alfred clipboard history search
+                 [:r [:km "Centre mouse to active app"]]
+                 [:p :!CTOc] ; Sleep
+                 [:open_bracket :!CT5] ; Turn display on/off
+                 [:a [:km "open: Chrome Canary"]]
+                 [:h [:km "Make markdown link from selection {link}"]]
+                 [:escape [:km "open: Framer"]]
+                 [:k [:km "open: v0"]]
+                 [:l [:km "open: Rive"]]
+                 [:o [:km "open: bolt"]]
+                 ;[:l :!Creturn_or_enter] ; TODO: move it to nicer place
+                 [:j :!TSspacebar] ; Things Quick Entry (with context) TODO: move to LA quick add
+                 [:semicolon [:km "Things (top task)"]]
+                 [:quote :!TOCspacebar] ; Things Quick Entry (without context) TODO: should just be part of f+j (after the fact new bind to remove context)
+                 [:comma [:km "edit: Flox"]]
+                 [:period [:km "edit: Karabiner"]]
+                 [:slash :!CTO4] ; Alfred file/text action
+                 [:z :!Ospacebar] ; Switch language (Russian <-> English)
+                 [:m [:km "open: Midjourney"]]
+                 [:spacebar [:km "open: Eagle"]]]}
+        {:des "gkey (actions)"
+         :rules [:g-mode
+                 [:w :!CSgrave_accent_and_tilde] ; Switch between active windows (go up)
+                 [:caps_lock [:km "Go to KM group of current app from picklist"]]
+                 [:a [:km "Go to KM group of current app"]]
+                 [:s [:km "New KM global macro"]]
+                 [:d [:km "Dismiss notifications"]]
+                 [:h :!CSOa] ; Move window left
+                 ;[:j [:km "New KM global macro"]] ; TODO: create global macro from Test (clear test, focus on naming new macro) (maybe, don't use `Test` any more as much)
+                 [:k :!COSf] ; Maximize window
+                 [:l :!CSOd] ; Move window right
+                 [:semicolon :!COSs] ; Move window between different screen & maximize
+                 [:u :!TOS7] ; Move focus to the Dock (system settings > keyboard > keyboard)
+                 [:i :!TOS6] ; Move focus to the menu bar (system settings > keyboard > keyboard)
+                 [:o :!CSslash] ; Search menu bar (can also jump around menu bar items after with left/right arrow)
+                 [:n :!TOS4] ; Turn Do Not Disturb on/off (system settings > keyboard > mission control)
+                 [:m :!TOS3] ; Show Notification Centre (system settings > keyboard > mission control)
+                 [:comma :!TOS5] ; Show Desktop (system settings > keyboard > mission control)
+                 ;[:q :!CT3] ; Search bartender menu items
+                 ;[:j :!Cgrave_accent_and_tilde] ; Switch between active windows (go down)
+                 ;[:j [:km "New open app's macro"]] ; TODO: macro that will start a new macro in currently open app KM group
+                 ;[:semicolon :!COSs] ; Move window to right desktop
+                 ;[:z :!CO0] ; Show Dropzone dropdown
+                 [:quote :!COS6]]} ; Toggle Night Shift on/off.
+        {:des "vkey (media)"
+         :rules [:v-mode
+                 [:q :illumination_decrement]
+                 [:w :illumination_increment]
+                 [:e [:km "Change macOS appearance (dark/light)"]]
+                 [:i :display_brightness_decrement]
+                 [:o :display_brightness_increment]
+                 [:h :vk_consumer_previous]
+                 [:j :mute]
+                 [:k :vk_consumer_play]
+                 [:l :vk_consumer_next]
+                 [:n :volume_decrement]
+                 [:m :volume_increment]
+                 [:spacebar :!CSOv]]} ; Selection -> Google Images
  ]}

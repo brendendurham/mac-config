@@ -32,7 +32,7 @@ ln -sf "$SDIR/zprofile"         ~/.zprofile
 # ln -sf "$SDIR/zsh_secret"    ~/.zsh_secret
 
 # ln -sf "$SDIR/zsh_abbr" ~/.config/zsh/zsh_abbr
-ln -sf "$SDIR/zalias"    ~/.config/zsh/zalias
+ln -sf "$SDIR/zsh_aliases"    ~/.config/zsh/zsh_aliases
 
 
 # ln -sf "$SDIR/abbreviations" ~/.config/zsh/zsh_abbr

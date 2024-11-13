@@ -1,0 +1,10 @@
+# Brew aliases (only if brew is installed)
+if command -v brew >/dev/null 2>&1; then
+    alias bci='brew install --cask'
+    alias bi='brew install'
+    alias br='brew remove'
+    alias bs='brew search'
+    alias binfo='brew info'
+fi
+
+alias ic='cd ~/Library/Mobile\ Documents/com~apple~CloudDocs/' 

@@ -844,6 +844,10 @@ defaults write com.twitter.twitter-mac ShowFullNames -bool true
 # Hide the app in the background if it’s not the front-most window
 defaults write com.twitter.twitter-mac HideInBackground -bool true
 
+
+# Other Application
+defaults write -g NSWindowShouldDragOnGesture -bool true
+
 ###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
